@@ -1,6 +1,5 @@
 package com.rakulack.videomanagement.auth;
 
-import lombok.extern.slf4j.Slf4j;
 
 import com.rakulack.videomanagement.repository.UserRepository;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Slf4j
 public class SimpleUserDetailsService implements UserDetailsService {
   private final UserRepository userRepository;
 
@@ -30,7 +28,6 @@ public class SimpleUserDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     assert(email != null);
-    log.debug("loadUserByUsername(email):[{}]", email);
     return userRepository.findByEmail(email)
         .map(SimpleLoginUser::new)
         .orElseThrow(() -> new UsernameNotFoundException("User not found by email:[" + email + "]"));

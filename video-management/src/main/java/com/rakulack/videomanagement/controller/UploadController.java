@@ -21,12 +21,12 @@ public class UploadController {
 
 
 	public Object post(@RequestParam("upload_file") MultipartFile multipartFile,
-    @RequestParam("filetype") String fileType,  // ファイル種類
     @AuthenticationPrincipal SimpleLoginUser loginUser) {
 		// ファイルが空の場合は異常終了
         if(multipartFile.isEmpty()){
             // 異常終了時の処理
         }
+
 
 		return "index";
 	}
