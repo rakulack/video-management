@@ -19,15 +19,15 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"id"})
+@ToString(exclude = { "id" })
 public class FileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "user_id")
     private Long userId;
-    @Column(name = "file_path", length = 200, nullable = false)
-    private String file_path;
+    @Column(name = "file_name", length = 200, nullable = false)
+    private String file_name;
     @Column(name = "memo", length = 200, nullable = false)
     private String memo;
     @Column(name = "prc_date")

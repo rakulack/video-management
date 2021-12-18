@@ -23,9 +23,11 @@ import com.oracle.bmc.objectstorage.responses.UploadPartResponse;
 import com.rakulack.videomanagement.component.FileUploadComponent;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @ConfigurationProperties("OCIFileUpload")
+@Component
 public class OCIFileUploadComponentImpl implements FileUploadComponent {
 
     String configurationFilePath = "~/.oci/config";
