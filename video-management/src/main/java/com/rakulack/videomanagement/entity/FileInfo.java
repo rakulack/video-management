@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "header")
+@Table(name = "fileinfo")
 @Entity
 @Data
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class FileInfo {
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "file_name", length = 200, nullable = false)
-    private String file_name;
+    private String fileName;
     @Column(name = "memo", length = 200, nullable = false)
     private String memo;
     @Column(name = "prc_date")

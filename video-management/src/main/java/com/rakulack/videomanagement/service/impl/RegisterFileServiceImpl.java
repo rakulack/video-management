@@ -26,15 +26,10 @@ public class RegisterFileServiceImpl implements RegisterFileService {
 
     @Transactional
     @Override
-    public void registerFile(MultipartFile file, SimpleLoginUser user) {
-        try {
-            String fileName = fileUploadComponent.uploadFile(file);
-            FileInfo fileInfo = new FileInfo(null, user.getUser().getId(), fileName, "", new Date());
-            fileInfoRepository.save(fileInfo);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void registerFile(MultipartFile file, SimpleLoginUser user) throws IOException {
+        String fileName = fileUploadComponent.uploadFile(file);
+        FileInfo fileInfo = new FileInfo(null, user.getUser().getId(), fileName, "", new Date());
+        fileInfoRepository.save(fileInfo);
     }
 
 }
