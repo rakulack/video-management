@@ -1,99 +1,86 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 
 <body>
-    <div id="app">
-        <v-app id="inspire">
-            
-            <v-navigation-drawer
-              v-model="drawer"
-              app
-            >
-            <v-sheet
-            color="grey lighten-4"
-            class="pa-4"
-          >
-            <v-divider></v-divider>
-            <v-list>
-                <v-list-item
-                  v-for="[icon, text, url] in sidebarLinksLogin"
-                  :key="icon"
-                  :href="url"
-                  link
-                 >
-                    <v-list-item-icon>
-                        <v-icon>{{ icon }}</v-icon>
-                    </v-list-item-icon>
-        
-                    <v-list-item-content>
-                        <v-list-item-title>{{ text }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-          </v-sheet>
-            </v-navigation-drawer>
-        
-            <v-app-bar app>
-              <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        
-              <v-toolbar-title>Application</v-toolbar-title>
-              <v-spacer></v-spacer>              
-            </v-app-bar>
-        
-            <v-main class="grey lighten-2">
+  <div id="app">
+    <v-app id="inspire">
 
-                <v-container>
-                    <v-row>
-                      <template v-for="n in 4">
-                        <v-col
-                          :key="n"
-                          class="mt-2"
-                          cols="12"
-                        >
-                          <strong>Category {{ n }}</strong>
-                        </v-col>
-            
-                        <v-col
-                          v-for="j in 6"
-                          :key="`${n}${j}`"
-                          cols="6"
-                          md="2"
-                        >
-                          <v-sheet height="150"></v-sheet>
-                        </v-col>
-                      </template>
-                    </v-row>
-                  </v-container>
-            </v-main>
-          </v-app>
+      <v-navigation-drawer v-model="drawer" app>
+        <v-sheet color="grey lighten-4" class="pa-4">
+          <v-divider></v-divider>
+          <v-list>
+            <v-list-item v-for="[icon, text, url] in sidebarLinksLogin" :key="icon" :href="url" link>
+              <v-list-item-icon>
+                <v-icon>{{ icon }}</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>{{ text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-sheet>
+      </v-navigation-drawer>
+
+      <v-app-bar app>
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+        <v-toolbar-title>Application</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-app-bar>
+
+      <v-main class="grey lighten-2">
+        <v-alert type="success" th:if="${successMessage != null}">
+          <span th:text="${successMessage}">successMessage</span>
+        </v-alert>
+        <v-alert type="alert" th:if="${alertMessage != null}">
+          <span th:text="${alertMessage}">alertMessage</span>
+        </v-alert>
+
+        <v-container>
+          <v-row>
+            <template v-for="n in 4">
+              <v-col :key="n" class="mt-2" cols="12">
+                <strong>Category {{ n }}</strong>
+              </v-col>
+
+              <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
+                <v-sheet height="150"></v-sheet>
+              </v-col>
+            </template>
+          </v-row>
+        </v-container>
+      </v-main>
+    </v-app>
 
 
-    </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            vuetify: new Vuetify(),
-            data: {
-                drawer: null,
-                sidebarLinks: [
-                    ['mdi-login', 'ログイン','/login'],
-                    ['mdi-account', 'サインアップ','/signup']
-                ],
-            },
-            methods: {
-            }
-        });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: {
+        drawer: null,
+        sidebarLinks: [
+          ['mdi-login', 'ログイン', '/login'],
+        ],
+      },
+      methods: {
+      }
+    });
+  </script>
 
 </body>
+
 </html>

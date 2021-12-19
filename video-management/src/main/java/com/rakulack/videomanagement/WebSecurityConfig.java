@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // @formatter:off
     http
       .authorizeRequests()
-        .mvcMatchers("/", "/signup","/detail/**","/edit/**","/h2-console","/h2-console/**").permitAll()
+        .mvcMatchers("/h2-console","/h2-console/**").permitAll()
         .anyRequest().authenticated()
       .and()
       .formLogin()
