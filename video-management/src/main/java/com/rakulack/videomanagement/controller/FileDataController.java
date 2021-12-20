@@ -19,7 +19,7 @@ public class FileDataController {
         this.fileInfoRepository = fileInfoRepository;
     }
 
-    @GetMapping("fileData")
+    @GetMapping("/fileData")
     public List<FileInfo> getFileData(@AuthenticationPrincipal SimpleLoginUser loginUser) {
         return fileInfoRepository.findByUserIdOrderByPrcDateDesc(loginUser.getUser().getId());
     }

@@ -17,9 +17,9 @@ import com.rakulack.videomanagement.component.FileFetchComponent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties("OCIFileFetch")
+@ConfigurationProperties("ocifilefetch")
 @Component
-public class OCIFileFetchComponent implements FileFetchComponent {
+public class OciFileFetchComponent implements FileFetchComponent {
 
     String configurationFilePath = "~/.oci/config";
     String profile = "DEFAULT";

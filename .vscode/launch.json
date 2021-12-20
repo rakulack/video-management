@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-VideoManagementApplication<video-management>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.rakulack.videomanagement.VideoManagementApplication",
+            "projectName": "video-management",
+            "args": ""
+        }
+    ]
+}

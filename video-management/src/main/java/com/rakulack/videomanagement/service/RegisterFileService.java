@@ -1,6 +1,7 @@
 package com.rakulack.videomanagement.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.rakulack.videomanagement.auth.SimpleLoginUser;
 
@@ -12,5 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author rakulack
  */
 public interface RegisterFileService {
-    void registerFile(MultipartFile file, SimpleLoginUser user) throws IOException;
+    void registerFile(MultipartFile file, SimpleLoginUser user, Date fileDate) throws IOException;
+
+    boolean canUpload(MultipartFile file, SimpleLoginUser user);
 }

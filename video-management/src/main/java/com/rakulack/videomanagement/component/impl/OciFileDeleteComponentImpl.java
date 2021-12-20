@@ -16,9 +16,9 @@ import com.rakulack.videomanagement.component.FileDeleteComponent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties("OCIFileDelete")
+@ConfigurationProperties("ocifiledelete")
 @Component
-public class OCIFileDeleteComponentImpl implements FileDeleteComponent {
+public class OciFileDeleteComponentImpl implements FileDeleteComponent {
 
     String configurationFilePath = "~/.oci/config";
     String profile = "DEFAULT";

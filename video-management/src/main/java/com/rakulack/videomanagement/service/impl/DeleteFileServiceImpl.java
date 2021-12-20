@@ -25,7 +25,7 @@ public class DeleteFileServiceImpl implements DeleteFileService {
     @Transactional
     @Override
     public void deleteFile(String fileName, SimpleLoginUser user) throws IOException {
-        FileInfo fileInfo = fileInfoRepository.findbyUserIdAndFileName(user.getUser().getId(), fileName);
+        FileInfo fileInfo = fileInfoRepository.findByUserIdAndFileName(user.getUser().getId(), fileName);
         if (fileInfo != null) {
             fileDeleteComponent.deleteFile(fileName);
             fileInfoRepository.delete(fileInfo);

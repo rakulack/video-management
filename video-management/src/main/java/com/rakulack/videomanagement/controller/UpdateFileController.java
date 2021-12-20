@@ -1,6 +1,9 @@
 package com.rakulack.videomanagement.controller;
 
+import java.util.List;
+
 import com.rakulack.videomanagement.auth.SimpleLoginUser;
+import com.rakulack.videomanagement.entity.FileInfo;
 import com.rakulack.videomanagement.service.UpdateFileInfoService;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +21,10 @@ public class UpdateFileController {
         this.updateFileInfoService = updateFileInfoService;
     }
 
-    @PostMapping("update")
-    public String post(@RequestParam("fileData") UpdateForm form,
+    @PostMapping("/update")
+    public String post(@RequestParam("fileDataList") List<FileInfo> infos,
             @AuthenticationPrincipal SimpleLoginUser loginUser, Model model) {
-        updateFileInfoService.update(form.getFileName(), loginUser, form.getMemo());
+        infos.forEach(info -> updateFileInfoService.update(info.getFileName(), loginUser, info.getMemo()));
         return "success";
     }
 

@@ -30,6 +30,8 @@ public class FileInfo {
     private String fileName;
     @Column(name = "memo", length = 200, nullable = false)
     private String memo;
+    @Column(name = "file_date")
+    private Date fileDate;
     @Column(name = "prc_date")
     private Date prcDate;
 }

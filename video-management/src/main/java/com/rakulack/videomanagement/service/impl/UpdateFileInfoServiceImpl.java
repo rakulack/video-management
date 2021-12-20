@@ -20,7 +20,7 @@ public class UpdateFileInfoServiceImpl implements UpdateFileInfoService {
     @Transactional
     @Override
     public void update(String fileName, SimpleLoginUser user, String memo) {
-        FileInfo fileInfo = fileInfoRepository.findbyUserIdAndFileName(user.getUser().getId(), fileName);
+        FileInfo fileInfo = fileInfoRepository.findByUserIdAndFileName(user.getUser().getId(), fileName);
         fileInfo.setMemo(memo);
         fileInfoRepository.save(fileInfo);
     }

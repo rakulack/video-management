@@ -24,7 +24,7 @@ public class FetchFileServiceImpl implements FetchFileService {
     @Override
     public InputStream fetchFile(String fileName, SimpleLoginUser user) throws IOException {
         // 存在チェック。ログイン後に他人の動画を勝手に見れないようにする。
-        if (fileInfoRepository.findbyUserIdAndFileName(user.getUser().getId(), fileName) == null) {
+        if (fileInfoRepository.findByUserIdAndFileName(user.getUser().getId(), fileName) == null) {
             return null;
         }
         return fileFetchComponent.fetchFile(fileName);
