@@ -12,7 +12,27 @@
 <body>
   <div id="app">
     <v-app id="inspire">
+      <v-navigation-drawer v-model="drawer" app>
+        <v-sheet color="grey lighten-4" class="pa-4">
+          <v-card elevation="2">
+            <v-card-title>撮影した動画の年度で絞り込むことができます。</v-card-title>
+          </v-card>
+          <v-list>
+            <v-list-item v-for="[icon, nendo] in getSidebarLinks" @click="getfileDataListWithNendo(nendo)" link>
+              <v-list-item-icon>
+                <v-icon>{{ icon }}</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>{{ nendo }}年度</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-sheet>
+      </v-navigation-drawer>
+
       <v-app-bar app>
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>My Memory Videos</v-toolbar-title>
       </v-app-bar>
 
@@ -27,16 +47,19 @@
           <v-card elevation="2">
             <v-card-title>ここから動画をアップロードします</v-card-title>
             <form method="post" enctype="multipart/form-data">
-              <input type="file" name="upload_file" id="upload_file" accept=".mp4,.webm" style="margin-left: 5px;"
-                v-on:change="getFileDate"></input>
+              <input type="file" name="upload_file" id="upload_file" accept=".mp4,.webm"
+                style="margin-left: 5px; margin-bottom: 5px;" v-on:change="getFileDate"></input>
               <input type="hidden" name="file_date" id="file_date"></input>
-              <v-btn type="submit" formaction="/upload" style="margin-left: 5px;">アップロード</v-btn>
+              <v-btn type="submit" formaction="/upload" style="margin-left: 5px; margin-bottom: 5px;">アップロード</v-btn>
             </form>
-            <v-divider></v-divider>
-            <v-card-title>ファイル削除</v-card-title>
+          </v-card>
+        </v-container>
+        <v-container>
+          <v-card elevation="2">
+            <v-card-title>ファイル削除するためには、ファイル名を入力して、「ファイルの削除」を押してください。</v-card-title>
             <form method="post" enctype="multipart/form-data">
-              <input type="text" name="delete_file" style="margin-left: 5px;"></input>
-              <v-btn type="submit" formaction="/delete" style="margin-left: 5px;">ファイルの削除</v-btn>
+              <input type="text" name="delete_file" style="margin-left: 5px; margin-bottom: 5px;"></input>
+              <v-btn type="submit" formaction="/delete" style="margin-left: 5px; margin-bottom: 5px;">ファイルの削除</v-btn>
             </form>
           </v-card>
         </v-container>
@@ -67,6 +90,7 @@
       el: '#app',
       vuetify: new Vuetify(),
       data: {
+        drawer: null,
         fileDataList: [],
         parPage: 5,
         currentPage: 1
@@ -74,6 +98,16 @@
       methods: {
         getfileDataList: function () {
           const path = '/fileData';
+          axios.get(path)
+            .then(response => {
+              this.fileDataList = response.data
+            })
+            .catch(error => {
+              console.log(error)
+            });
+        },
+        getfileDataListWithNendo: function (nendo) {
+          const path = '/fileData/' + nendo;
           axios.get(path)
             .then(response => {
               this.fileDataList = response.data
@@ -103,6 +137,19 @@
         },
         getPageCount: function () {
           return Math.ceil(this.fileDataList.length / this.parPage);
+        },
+        getSidebarLinks: function () {
+          let result = [];
+          var dt = new Date();
+          let y = dt.getFullYear();
+          if (dt.getMonth() + 1 < 4) {
+            y = y - 1;
+          }
+          for (let nendo = 2017; nendo < y + 1; nendo++) {
+            result.push(["mdi-calendar", nendo])
+
+          }
+          return result;
         }
       },
       created() {
