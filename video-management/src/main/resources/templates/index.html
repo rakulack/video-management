@@ -50,7 +50,7 @@
               <input type="file" name="upload_file" id="upload_file" accept=".mp4,.webm"
                 style="margin-left: 5px; margin-bottom: 5px;" v-on:change="getFileDate"></input>
               <input type="hidden" name="file_date" id="file_date"></input>
-              <v-btn type="submit" formaction="/upload" style="margin-left: 5px; margin-bottom: 5px;">アップロード</v-btn>
+              <v-btn type="submit" formaction="./upload" style="margin-left: 5px; margin-bottom: 5px;">アップロード</v-btn>
             </form>
           </v-card>
         </v-container>
@@ -59,7 +59,7 @@
             <v-card-title>ファイル削除するためには、ファイル名を入力して、「ファイルの削除」を押してください。</v-card-title>
             <form method="post" enctype="multipart/form-data">
               <input type="text" name="delete_file" style="margin-left: 5px; margin-bottom: 5px;"></input>
-              <v-btn type="submit" formaction="/delete" style="margin-left: 5px; margin-bottom: 5px;">ファイルの削除</v-btn>
+              <v-btn type="submit" formaction="./delete" style="margin-left: 5px; margin-bottom: 5px;">ファイルの削除</v-btn>
             </form>
           </v-card>
         </v-container>
@@ -67,7 +67,7 @@
           <v-container>
             <v-card elevation="2">
               <v-card-title>{{fileData.fileName}}</v-card-title>
-              <video :src="'/fetch/'+fileData.fileName" controls style="width: 100%;"></video>
+              <video :src="'./fetch/'+fileData.fileName" controls style="width: 100%;"></video>
             </v-card>
           </v-container>
         </template>
@@ -97,7 +97,7 @@
       },
       methods: {
         getfileDataList: function () {
-          const path = '/fileData';
+          const path = './fileData';
           axios.get(path)
             .then(response => {
               this.fileDataList = response.data
@@ -107,7 +107,7 @@
             });
         },
         getfileDataListWithNendo: function (nendo) {
-          const path = '/fileData/' + nendo;
+          const path = './fileData/' + nendo;
           axios.get(path)
             .then(response => {
               this.fileDataList = response.data

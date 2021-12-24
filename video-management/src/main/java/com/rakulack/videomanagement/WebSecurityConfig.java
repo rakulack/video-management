@@ -32,7 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // @formatter:off
     http
       .authorizeRequests()
-        .mvcMatchers("/h2-console","/h2-console/**").permitAll()
         .anyRequest().authenticated()
       .and()
       .formLogin()
