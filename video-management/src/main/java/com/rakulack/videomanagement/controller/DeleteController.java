@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.rakulack.videomanagement.auth.SimpleLoginUser;
 import com.rakulack.videomanagement.service.DeleteFileService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,10 @@ public class DeleteController {
     @PostMapping("/delete")
     public String post(@RequestParam("delete_file") String fileName,
             @AuthenticationPrincipal SimpleLoginUser loginUser, RedirectAttributes redirectAttributes) {
+        if (StringUtils.isEmpty(fileName)) {
+            redirectAttributes.addFlashAttribute("alertMessage", "ファイル名が空です");
+            return "redirect:/";
+        }
         try {
             deleteFileService.deleteFile(fileName, loginUser);
         } catch (IOException e) {

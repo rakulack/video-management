@@ -62,7 +62,7 @@ public class FileCompressComponentImpl implements FileCompressComponent {
 
     @Override
     public void deleteTempFile(String fileName) {
-        String extension = fileName.substring(fileName.lastIndexOf("."));
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         try {
             Files.delete(FileSystems.getDefault().getPath("temp." + extension));
             Files.delete(FileSystems.getDefault().getPath("source.3gp"));
