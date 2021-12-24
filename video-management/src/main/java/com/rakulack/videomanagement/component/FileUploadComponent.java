@@ -1,8 +1,7 @@
 package com.rakulack.videomanagement.component;
 
 import java.io.IOException;
-
-import org.springframework.web.multipart.MultipartFile;
+import java.io.InputStream;
 
 /**
  * upload file to server.
@@ -10,5 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
  * @author rakulack
  */
 public interface FileUploadComponent {
-    String uploadFile(MultipartFile file) throws IOException;
+    void uploadFile(InputStream is, String fileName, String contentType) throws IOException;
 }

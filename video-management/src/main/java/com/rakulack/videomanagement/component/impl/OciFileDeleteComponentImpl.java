@@ -27,15 +27,20 @@ public class OciFileDeleteComponentImpl implements FileDeleteComponent {
 
     @Override
     public void deleteFile(String fileName) throws IOException {
-        final ConfigFileReader.ConfigFile configFile = ConfigFileReader.parseDefault();
-        final AuthenticationDetailsProvider provider = new ConfigFileAuthenticationDetailsProvider(configFile);
-        ObjectStorage client = ObjectStorageClient.builder().build(provider);
-        client.setRegion(regionId);
-        GetNamespaceResponse namespaceResponse = client.getNamespace(GetNamespaceRequest.builder().build());
-        String namespaceName = namespaceResponse.getValue();
-        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder().bucketName(bucketName)
-                .namespaceName(namespaceName).objectName(fileName).build();
-        client.deleteObject(deleteObjectRequest);
+        try {
+            final ConfigFileReader.ConfigFile configFile = ConfigFileReader.parseDefault();
+            final AuthenticationDetailsProvider provider = new ConfigFileAuthenticationDetailsProvider(configFile);
+            ObjectStorage client = ObjectStorageClient.builder().build(provider);
+            client.setRegion(regionId);
+            GetNamespaceResponse namespaceResponse = client.getNamespace(GetNamespaceRequest.builder().build());
+            String namespaceName = namespaceResponse.getValue();
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder().bucketName(bucketName)
+                    .namespaceName(namespaceName).objectName(fileName).build();
+            client.deleteObject(deleteObjectRequest);
+        } catch (Exception e) {
+            // データ不整合とかで失敗した場合に来るが、データだけでも消したいので握りつぶす。
+            e.printStackTrace();
+        }
     }
 
 }

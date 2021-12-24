@@ -1,6 +1,7 @@
 package com.rakulack.videomanagement.component.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,6 @@ import com.rakulack.videomanagement.component.FileUploadComponent;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 @ConfigurationProperties("ocifileupload")
 @Component
@@ -36,7 +36,7 @@ public class OciFileUploadComponentImpl implements FileUploadComponent {
         String bucketName = "bucket-20211217-1537";
 
         @Override
-        public String uploadFile(MultipartFile file) throws IOException {
+        public void uploadFile(InputStream is, String fileName, String contentType) throws IOException {
 
                 final ConfigFileReader.ConfigFile configFile = ConfigFileReader.parseDefault();
                 final AuthenticationDetailsProvider provider = new ConfigFileAuthenticationDetailsProvider(configFile);
@@ -45,7 +45,7 @@ public class OciFileUploadComponentImpl implements FileUploadComponent {
                 GetNamespaceResponse namespaceResponse = client.getNamespace(GetNamespaceRequest.builder().build());
                 String namespaceName = namespaceResponse.getValue();
                 CreateMultipartUploadDetails createMultipartUploadDetails = CreateMultipartUploadDetails.builder()
-                                .object(file.getOriginalFilename()).contentType(file.getContentType()).build();
+                                .object(fileName).contentType(contentType).build();
                 CreateMultipartUploadRequest createMultipartUploadRequest = CreateMultipartUploadRequest.builder()
                                 .bucketName(bucketName).namespaceName(namespaceName)
                                 .createMultipartUploadDetails(createMultipartUploadDetails).build();
@@ -54,8 +54,8 @@ public class OciFileUploadComponentImpl implements FileUploadComponent {
                 UploadPartRequest uploadPartRequest = UploadPartRequest.builder()
                                 .namespaceName(namespaceName)
                                 .bucketName(bucketName)
-                                .objectName(file.getOriginalFilename())
-                                .uploadPartBody(file.getInputStream())
+                                .objectName(fileName)
+                                .uploadPartBody(is)
                                 .uploadId(createMultipartUploadResponse.getMultipartUpload().getUploadId())
                                 .uploadPartNum(1)
                                 .build();
@@ -69,12 +69,11 @@ public class OciFileUploadComponentImpl implements FileUploadComponent {
                 CommitMultipartUploadRequest commitMultipartUploadRequest = CommitMultipartUploadRequest.builder()
                                 .namespaceName(namespaceName)
                                 .bucketName(bucketName)
-                                .objectName(file.getOriginalFilename())
+                                .objectName(fileName)
                                 .uploadId(createMultipartUploadResponse.getMultipartUpload().getUploadId())
                                 .commitMultipartUploadDetails(commitMultipartUploadDetails)
                                 .build();
                 client.commitMultipartUpload(commitMultipartUploadRequest);
-                return file.getOriginalFilename();
         }
 
 }
