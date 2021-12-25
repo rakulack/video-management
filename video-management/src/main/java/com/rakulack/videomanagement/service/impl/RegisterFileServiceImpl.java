@@ -34,9 +34,9 @@ public class RegisterFileServiceImpl implements RegisterFileService {
         try {
             fileUploadComponent.uploadFile(
                     fileCompressComponent.compress(file.getInputStream(), file.getOriginalFilename()),
-                    file.getOriginalFilename().replace("mp4", "3gp").replace("MP4", "3gp"), "video/3gp");
+                    file.getOriginalFilename(), "video/mp4");
             FileInfo fileInfo = new FileInfo(null, user.getUser().getId(),
-                    file.getOriginalFilename().replace("mp4", "3gp").replace("MP4", "3gp"), "", fileDate,
+                    file.getOriginalFilename(), "", fileDate,
                     new Date());
             fileInfoRepository.save(fileInfo);
         } finally {
